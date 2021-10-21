@@ -44,7 +44,7 @@ def main():
 
     # key, file_path = get_pdf(B_O_LAIDEN, 2)
 
-    key, file_path = get_pdf(INVOICE, 2)
+    key, file_path = get_pdf(INVOICE, 1)
 
     text = prep_file(file_path)
 

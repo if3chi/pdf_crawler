@@ -71,16 +71,26 @@ class Invoice:
                     " ".join(line.split(" ")[1:]).replace("|", "").replace("_", "")
                 )
 
-
         return self.__sanitize_data(desc_list)
 
     def __get_invoice_number(self):
-        raise ValueError()
-        pass
+
+        invoice_num = "null"
+
+        for line in self.text.splitlines():
+            if re.compile(r"^INVOICE |INVOIGE ").findall(line):
+
+                try:
+                    invoice_num = list(filter(None, line.split(" ")))[1]
+                    return invoice_num
+                except Exception as e:
+                    invoice_num = "null"
+
+        return invoice_num
 
     def __get_invoice_date(self):
 
-        return re.findall(r"\d{2}-\d{2}-\d{4}|\d{2}/\d{2}/\d{4}", self.text)
+        return re.findall(r"\d{2}-\d{2}-\d{4}|\d{2}/\d{2}/\d{4}", self.text)[0]
 
     def __prep_data(self):
         return {

@@ -1,6 +1,4 @@
 import os
-import time
-import pdftables as pdt
 import pdfplumber as pdf
 import convert
 from errors import PdfIsScannedError

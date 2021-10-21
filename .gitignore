@@ -1,2 +1,5 @@
 .vscode
 .pcenv
+.ocrenv
+testFiles
+__pycache__

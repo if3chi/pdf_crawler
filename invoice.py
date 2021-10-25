@@ -92,12 +92,44 @@ class Invoice:
 
         return re.findall(r"\d{2}-\d{2}-\d{4}|\d{2}/\d{2}/\d{4}", self.text)[0]
 
+    def __get_fob(self):
+
+        fob = "null"
+
+        for line in self.text.splitlines():
+            if re.compile(r"^FOB|^[a-zA-Z].* FOB ").findall(line):
+
+                try:
+                    fob = list(filter(None, line.split(" ")))[-1]
+                    return fob.strip('$')
+                except Exception as e:
+                    fob = "null"
+
+        return fob
+    
+    def __get_freight(self):
+
+        freight = "null"
+
+        for line in self.text.splitlines():
+            if re.compile(r"^FREIGHT|^[a-zA-Z].* FREIGHT ").findall(line):
+
+                try:
+                    freight = list(filter(None, line.split(" ")))[-1]
+                    return freight.strip('$')
+                except Exception as e:
+                    freight = "null"
+
+        return freight
+
     def __prep_data(self):
         return {
             "invoice date": self.__get_invoice_date(),
             "invoice number": self.__get_invoice_number(),
             "consignee": self.__get_consignee(),
             "Invoice Table": self.__get_invoice(),
+            "FOB": self.__get_fob(),
+            "Freight Charges": self.__get_freight(),
         }
 
     def get_result(self):
